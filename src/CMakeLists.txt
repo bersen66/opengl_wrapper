@@ -43,9 +43,9 @@ target_sources(${PROJECT_NAME} PRIVATE ${SOURCES})
 
 target_include_directories(${PROJECT_NAME}
         PRIVATE
-            ${CMAKE_CURRENT_SOURCE_DIR}
-            ${CMAKE_CURRENT_SOURCE_DIR}/buffers
-            ${CMAKE_CURRENT_SOURCE_DIR}/shaders
+        ..
+        buffers
+        shaders
         PUBLIC
             $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
             $<INSTALL_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
