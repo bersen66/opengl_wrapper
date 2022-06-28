@@ -1,12 +1,11 @@
-#include <iostream>
-#include <optional>
-#include <GL/glew.h>
-
 #include "shader_program.h"
 
-ShaderProgram::ShaderProgram()
-    : program_ds(glCreateProgram()) {}
+#include <GL/glew.h>
 
+#include <iostream>
+#include <optional>
+
+ShaderProgram::ShaderProgram() : program_ds(glCreateProgram()) {}
 
 ShaderProgram::~ShaderProgram() {
     glDetachShader(Descriptor(), FSDescriptor());
@@ -14,49 +13,52 @@ ShaderProgram::~ShaderProgram() {
     glDeleteProgram(Descriptor());
 }
 
-const GLuint ShaderProgram::Descriptor() const {
-    return program_ds;
-}
+const GLuint ShaderProgram::Descriptor() const { return program_ds; }
 
-const GLuint ShaderProgram::VSDescriptor() const {
-    return vertex_shader_ds;
-}
+const GLuint ShaderProgram::VSDescriptor() const { return vertex_shader_ds; }
 
-const GLuint ShaderProgram::FSDescriptor() const {
-    return fragment_shader_ds;
-}
+const GLuint ShaderProgram::FSDescriptor() const { return fragment_shader_ds; }
 
 ShaderProgram& ShaderProgram::SetUniform(const std::string& name, float value) {
     glUniform1f(GetUniformLocation(name), value);
     return *this;
 }
 
-ShaderProgram& ShaderProgram::SetUniform(const std::string& name, const glm::vec2 value) {
+ShaderProgram& ShaderProgram::SetUniform(const std::string& name,
+                                         const glm::vec2 value) {
     glUniform2f(GetUniformLocation(name), value.x, value.y);
     return *this;
 }
 
-ShaderProgram& ShaderProgram::SetUniform(const std::string& name, const glm::vec3 value) {
+ShaderProgram& ShaderProgram::SetUniform(const std::string& name,
+                                         const glm::vec3 value) {
     glUniform3f(GetUniformLocation(name), value.x, value.y, value.z);
     return *this;
 }
 
-ShaderProgram& ShaderProgram::SetUniform(const std::string& name, const glm::vec4 value) {
+ShaderProgram& ShaderProgram::SetUniform(const std::string& name,
+                                         const glm::vec4 value) {
     glUniform4f(GetUniformLocation(name), value.x, value.y, value.z, value.w);
     return *this;
 }
 
-ShaderProgram& ShaderProgram::SetUniform(const std::string& name, const glm::mat2& value, bool transpose) {
+ShaderProgram& ShaderProgram::SetUniform(const std::string& name,
+                                         const glm::mat2& value,
+                                         bool transpose) {
     glUniformMatrix2fv(GetUniformLocation(name), 1, transpose, &value[0][0]);
     return *this;
 }
 
-ShaderProgram& ShaderProgram::SetUniform(const std::string& name, const glm::mat3& value, bool transpose) {
+ShaderProgram& ShaderProgram::SetUniform(const std::string& name,
+                                         const glm::mat3& value,
+                                         bool transpose) {
     glUniformMatrix3fv(GetUniformLocation(name), 1, transpose, &value[0][0]);
     return *this;
 }
 
-ShaderProgram& ShaderProgram::SetUniform(const std::string& name, const glm::mat4& value, bool transpose) {
+ShaderProgram& ShaderProgram::SetUniform(const std::string& name,
+                                         const glm::mat4& value,
+                                         bool transpose) {
     glUniformMatrix4fv(GetUniformLocation(name), 1, transpose, &value[0][0]);
     return *this;
 }
@@ -66,17 +68,20 @@ ShaderProgram& ShaderProgram::SetUniform(const std::string& name, int value) {
     return *this;
 }
 
-ShaderProgram& ShaderProgram::SetUniform(const std::string& name, const glm::ivec2 value) {
+ShaderProgram& ShaderProgram::SetUniform(const std::string& name,
+                                         const glm::ivec2 value) {
     glUniform2i(GetUniformLocation(name), value.x, value.y);
     return *this;
 }
 
-ShaderProgram& ShaderProgram::SetUniform(const std::string& name, const glm::ivec3 value) {
+ShaderProgram& ShaderProgram::SetUniform(const std::string& name,
+                                         const glm::ivec3 value) {
     glUniform3i(GetUniformLocation(name), value.x, value.y, value.z);
     return *this;
 }
 
-ShaderProgram& ShaderProgram::SetUniform(const std::string& name, const glm::ivec4 value) {
+ShaderProgram& ShaderProgram::SetUniform(const std::string& name,
+                                         const glm::ivec4 value) {
     glUniform4i(GetUniformLocation(name), value.x, value.y, value.z, value.w);
     return *this;
 }
@@ -93,27 +98,21 @@ int ShaderProgram::GetUniformLocation(const std::string& name) const {
 }
 
 std::string ShaderProgram::GetUniformName(int location) const {
-
     char buffer[32];
 
     GLsizei length;
     GLint size;
     GLenum type;
 
-    glGetActiveUniform(Descriptor(),
-                       (GLuint)location,
-                       sizeof(buffer),
-                       &length,
-                       &size,
-                       &type,
-                       buffer
-    );
+    glGetActiveUniform(Descriptor(), (GLuint)location, sizeof(buffer), &length,
+                       &size, &type, buffer);
     return {buffer};
 }
 
 int ShaderProgram::GetNumberOfActiveUniforms() const {
     int number_of_active_uniforms;
-    glGetProgramiv(Descriptor(), GL_ACTIVE_UNIFORMS, &number_of_active_uniforms);
+    glGetProgramiv(Descriptor(), GL_ACTIVE_UNIFORMS,
+                   &number_of_active_uniforms);
     return number_of_active_uniforms;
 }
 
@@ -137,7 +136,6 @@ std::string ShaderProgram::GetErrorMessage() const {
 }
 
 void ShaderProgram::PrintInfoLog(std::ostream& log_stream) const {
-
     if (IsValid()) {
         log_stream << "PROGRAM LINKING FAILED! LOG:\n"
                    << GetErrorMessage() << std::endl;
@@ -145,7 +143,6 @@ void ShaderProgram::PrintInfoLog(std::ostream& log_stream) const {
     }
     log_stream << "LINKED SUCCESSFULLY!" << std::endl;
 }
-
 
 void LinkProgram(const ShaderProgram& program, std::ostream& log_stream) {
     // linking
@@ -159,20 +156,19 @@ void LinkProgram(const ShaderProgram& program, std::ostream& log_stream) {
     if (program_linked != GL_TRUE) {
         GLsizei log_length = 0;
         GLchar log_message[1024];
-        glGetProgramInfoLog(program.Descriptor(), 1024, &log_length, log_message);
+        glGetProgramInfoLog(program.Descriptor(), 1024, &log_length,
+                            log_message);
 
-        log_stream << "PROGRAM LINKING FAILED! LOG:\n" << log_message << std::endl;
+        log_stream << "PROGRAM LINKING FAILED! LOG:\n"
+                   << log_message << std::endl;
         return;
     }
 
     log_stream << "LINKED SUCCESSFULLY!" << std::endl;
 }
 
-
-ShaderProgram MakeProgram (
-        const Shader<ShaderType::VERTEX>&   vertex_shader,
-        const Shader<ShaderType::FRAGMENT>& fragment_shader
-) {
+ShaderProgram MakeProgram(const Shader<ShaderType::VERTEX>& vertex_shader,
+                          const Shader<ShaderType::FRAGMENT>& fragment_shader) {
     ShaderProgram result;
 
     CompileShader(vertex_shader);

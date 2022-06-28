@@ -1,0 +1,13 @@
+Language: Cpp
+
+BasedOnStyle: Google
+
+AlignEscapedNewlines: true
+ReferenceAlignment: Left
+DerivePointerAlignment: false
+IndentAccessModifiers: false
+AccessModifierOffset: -4
+EmptyLineAfterAccessModifier: Always
+PointerAlignment: Left
+IndentWidth: 4
+

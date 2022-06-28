@@ -2,7 +2,6 @@
 #include "GL/glew.h"
 
 struct AttributeLayout {
-
     AttributeLayout& SetAttribType(GLenum value);
     AttributeLayout& SetAttributesNumber(size_t value);
     AttributeLayout& NeedNormalization(bool value);
@@ -17,4 +16,3 @@ struct AttributeLayout {
     size_t buffer_offset;
     size_t stride;
 };
-
